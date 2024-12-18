@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!--  в одном файле ChangeLog может содержаться много разных changeSet но это не рекомендуется
+     поэтому на каждый  changeSet пишется отдельный ChangeLog в отдельном файле
+     И в каждой версионной папке есть версионный ChangeLog и он называется chanlog.xml
+     В версионных ChangeLog прописываются все пути и этот файл содержит ссылки на
+     все базовые  ChangeLog 
+     И еще есть последнмй файл в корне папки  он называется ChangeLog и объудиняет все версионные chanlog
+     Если changeSet был применен и была сформирована таблица то код
+     нельзя исправлять иначе проект не будет работать
+     Нужно создать новый ChangeLog и новый changeSet изменяющий этот код -->
+ <changeSet id="create-table-product." author="tatianakrasikova">
+  <createTable tableName="product">
+      <!--             bigint соответствует типу Long в Java -->
+      <!--             autoIncrement="true" - мы хотим чтобы БД занималась генерацией ID -->
+      <column name="id" type="bigint" autoIncrement="true" >
+          <!--                 constraints - это ограничения
+ Здесь мы можем указать, допускается ли null  nullable
+  В том числе мы можем указать, что колонка у нас primary key  то есть первичный ключ-->
+      <constraints primaryKey="true"/>
+      </column>
+      <!--  unique - значение должно быть уникальным
+           64 ставим если мы хотим поставить ограничение по количеству символов
+          nullable="false я не хочу чтобы мое поле было значение null -->
+         <column name="title" type="varchar(64)">
+         <constraints nullable="false" unique="true"/>
+
+         </column>
+      <!--decimal(7,2) тип данных используемый для денежных единиц ,в скобках указываем размерность
+              первое число 5 знаков до запятой и 2 знака после запятой
+              constraints nullable="false" запрещаем отсутствие цены-->
+        <column name="price" type="decimal(7,2)">
+
+            <constraints nullable="false"/>
+    </column>
+      <!-- тип данных boolean используется для того чтобы данные не удалялись
+      физически из базы данных а становились невидимыми и вслучае запроса из можно было опять вернуть-->
+
+        <column name="active" type="boolean">
+            <constraints nullable="false"/>
+        </column>
+
+    </createTable>
+   </changeSet>
+  </databaseChangeLog>
