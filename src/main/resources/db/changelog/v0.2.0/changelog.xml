@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <changeSet id="add-tag-0.2.0" author="tatianakrasikova">
+        <tagDatabase tag="v.0.2.0"/>
+    </changeSet>
+    <!--  Это версионный   ChangeLog
+    тэг  include отвечает за добавление и сбор всех ссылок на те файлы в
+              которых были применены изменения,в ковычках мы должны прописать
+              путь к файлу create-table-product.xml   2 атрибут relativeToChangelogFile
+               он указывает что путь к указанному файлу является относительным
+                к файлу changelog ,то есть я прописываю путь к файлу create-table-product.xml
+                относительно файла
+                в котором я нахожусь то есть changelog.xml-->
+     <include file="create-table-customer.xml" relativeToChangelogFile="true"/>
+    
+
+</databaseChangeLog>
