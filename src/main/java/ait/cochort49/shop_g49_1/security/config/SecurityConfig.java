@@ -42,12 +42,17 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/products").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/products/{id}").authenticated()
-//                        .requestMatchers(HttpMethod.GET, "products/{id}").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                        //чтобы подключить аутентификацию надо закомментировать
+                        //эту строку ниже и раскомментировать все остальные
+                        //строки ниже кроме того где 2 слеша
+                                // Временно отключаем Security
+                                .anyRequest().permitAll()
+                              //  .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
+                             //   .requestMatchers(HttpMethod.GET,"/products").permitAll()
+                             //   .requestMatchers(HttpMethod.GET, "/products/{id}").authenticated()
+//    //                    .requestMatchers(HttpMethod.GET, "products/{id}").hasAnyRole("USER", "ADMIN")
+                           //     .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                            //    .anyRequest().authenticated()
 
                 );
 

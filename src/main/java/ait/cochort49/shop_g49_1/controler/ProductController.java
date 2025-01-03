@@ -1,8 +1,8 @@
 package ait.cochort49.shop_g49_1.controler;
 
 
-
-
+import ait.cochort49.shop_g49_1.exceprionHandling.Response;
+import ait.cochort49.shop_g49_1.exceprionHandling.exceptions.FirstTestException;
 import ait.cochort49.shop_g49_1.model.dto.ProductDTO;
 import ait.cochort49.shop_g49_1.service.interfaces.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,16 +12,23 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 
-// три уровня доступа
-//1.получение всех продуктов без аудинтефикации доступно всем пользователям включая анонимных
-//2.получение продукта по id - доступно только аутинцированным пользователям с любой ролью
-//3. Сохранение продуктов в базу данных доступен только администраторам сайта
+
+/*
+Три уровня доступа:
+
+1. Получение всех продуктов - Доступно всем пользователям, включая анонимных
+2. Получение продукта по id - Доступно только аутентифицированным пользователям с любой ролью
+3. Сохранение продукта в БД - Доступен только администраторам (т.е. пользователь с ролью ADMIN)
+ */
 
 
 // http://localhost:8080/products
@@ -52,7 +59,7 @@ public class ProductController {
                     })
     })
     @PostMapping
-    public ProductDTO saveProduct(@RequestBody ProductDTO productDto) {
+    public ProductDTO saveProduct(@Valid @RequestBody ProductDTO productDto) {
         return productService.saveProduct(productDto);
     }
 
@@ -71,6 +78,7 @@ public class ProductController {
             @Parameter(description = "The id that needs to be fetched", required = true)
             @PathVariable("productId")
             Long id) {
+
         return productService.getProductById(id);
     }
 
@@ -124,5 +132,12 @@ public class ProductController {
     @GetMapping("/average-price")
     public BigDecimal getAveragePrice() {
         return productService.getAveragePrice();
+    }
+
+    // Обработчик исключения в контроллере
+    @ExceptionHandler(FirstTestException.class)
+    public ResponseEntity<Response> handleException(FirstTestException exception) {
+        Response response = new Response(exception.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

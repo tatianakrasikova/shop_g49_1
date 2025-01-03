@@ -9,10 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author Sergey Bugaenko
- * {@code @date} 16.12.2024
- */
+
+
 
 public class AuthInfo implements Authentication {
     private boolean authenticated;

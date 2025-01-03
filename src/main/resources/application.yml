@@ -19,7 +19,16 @@ spring:
 server:
   servlet:
     context-path: /api
+    #  error:
+    #    include-message: always
+    #    include-binding-errors: always
  
 key:
   access: ${KEY_ACCESS}
   refresh: ${KEY_REFRESH}
+
+logging:
+  file:
+    name: logs/log.log
+  level:
+    root: info

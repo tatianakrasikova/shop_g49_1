@@ -2,6 +2,7 @@ package ait.cochort49.shop_g49_1.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -17,9 +18,15 @@ public class ProductDTO {
     private Long id;
 
     @Schema(description = "Product title", example = "Banana")
+    @NotNull(message = "Product title cannot be null") // title = null
+    @NotBlank(message = "Product title cannot be empty") //title = "";
+//    @Pattern(regexp = "^[A-Z][a-z ]{2,}$", message = "Product title should be at least 3 characters long, start with a capital letter")
+    @Pattern(regexp = "^[A-Z][a-z][a-zA-Z0-9 ]+$", message = "Product title should be at least 3 characters long, start with a capital letter")
     private String title;
 
     @Schema(description = "Product price", example = "8.50")
+    @DecimalMin(value = "1.0", message = "Product price should be greater or equals than 1.0")
+    @DecimalMax(value = "100000.0", inclusive = false, message = "Product price should be less  than 100000.0")
     private BigDecimal price;
 
 
